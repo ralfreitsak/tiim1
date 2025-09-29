@@ -1,0 +1,27 @@
+{
+  "name": "tiim1",
+  "version": "1.0.0",
+  "description": "mental health app",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ralfreitsak/tiim1.git"
+  },
+  "keywords": [
+    "mental",
+    "health"
+  ],
+  "author": "reitsak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ralfreitsak/tiim1/issues"
+  },
+  "homepage": "https://github.com/ralfreitsak/tiim1#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
