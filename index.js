@@ -28,46 +28,64 @@ app.get('/:comment/:user', (req, res) => {
 
 // POST /emotions – lisa uus emotsioon
 app.post('/emotions', async (req, res) => {
-    const { emotion_label, name } = req.body;
-    try {
-        await persistEntry(emotion_label, name);
-        res.send("Emotions received: " + emotion_label);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Server error" });
-    }
+  const { emotion_label, name } = req.body;
+  try {
+    await persistEntry(emotion_label, name);
+    res.status(201).json({ message: "Emotion saved successfully", emotion_label });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
-// GET /emotions – loe kõik emotsioonid
+// GET /emotions – tagastab kõik emotsioonid koos nimed ja ajaga
 app.get('/emotions', async (req, res) => {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        const rows = await conn.query("SELECT emotion_label FROM emotion");
-        const labels = rows.map(r => r.emotion_label);
-        res.json(labels);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Server error" });
-    } finally {
-        if (conn) conn.release();
-    }
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const rows = await conn.query("SELECT emotion_label, name, entry_time FROM emotion");
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
+// GET /emotions/stats – tagastab, mitu korda iga emotsioon lisatud
+app.get('/emotions/stats', async (req, res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const rows = await conn.query(`
+      SELECT emotion_label, COUNT(*) AS count
+      FROM emotion
+      GROUP BY emotion_label
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  } finally {
+    if (conn) conn.release();
+  }
 });
 
 // Funktsioon, mis salvestab emotsiooni andmebaasi
 const persistEntry = async (emotion_label, name) => {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        return await conn.query(
-            "INSERT INTO emotion (emotion_label, name) VALUES (?, ?)",
-            [emotion_label, name]
-        );
-    } catch (err) {
-        throw err;
-    } finally {
-        if (conn) conn.release();
-    }
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    return await conn.query(
+      "INSERT INTO emotion (emotion_label, name) VALUES (?, ?)",
+      [emotion_label, name]
+    );
+  } catch (err) {
+    throw err;
+  } finally {
+    if (conn) conn.release();
+  }
 }
 
 // Käivitame serveri
