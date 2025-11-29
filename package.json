@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/ralfreitsak/tiim1#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0", 
+    "cors": "^2.8.5",
+    "mariadb": "^3.4.5"
   }
 }
