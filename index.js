@@ -44,7 +44,8 @@ app.get('/emotions', async (req, res) => {
   try {
     conn = await pool.getConnection();
     const rows = await conn.query("SELECT emotion_label, name, entry_time FROM emotion");
-    res.json(rows);
+    // Tagasta alati massiiv
+    res.json(Array.isArray(rows) ? rows : []);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
