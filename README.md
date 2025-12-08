@@ -38,3 +38,6 @@ If using TypeScript, this command transpiles .ts files into .js.
 
 ## Component diagram
 ![Component Diagram](images/untitled_diagram.drawio.png)
+
+## Sequence diagram
+![Sequence diagram](images/sequencediagram.drawio.png)
