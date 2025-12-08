@@ -35,3 +35,6 @@ URL: http://localhost:3001/emotions
 Usually not needed for Node.js backend unless using TypeScript.
 
 If using TypeScript, this command transpiles .ts files into .js.
+
+## Component diagram
+![Component Diagram](images/untitled_diagram.drawio.png)
